@@ -3,7 +3,9 @@ import 'package:bazaar/domain/usecases/get_products.dart';
 import 'package:bazaar/presentation/blocs/product/product_bloc.dart';
 import 'package:bazaar/presentation/blocs/product/product_event.dart';
 import 'package:bazaar/presentation/blocs/product/product_state.dart';
+import 'package:bazaar/presentation/screens/cart_screen.dart';
 import 'package:bazaar/presentation/screens/product_detail_screen.dart';
+import 'package:bazaar/presentation/screens/wishlist_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -27,7 +29,39 @@ class ProductListScreen extends StatelessWidget {
             fit: BoxFit.contain,
           ),
           backgroundColor: const Color(0xFF2E7D32), // Teal Blue
-          border: null, // Clean look
+          border: null,
+          leading: CupertinoButton(
+            padding: EdgeInsets.zero,
+            child: const Icon(
+              CupertinoIcons.heart_fill,
+              color: CupertinoColors.white,
+              size: 24,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                CupertinoPageRoute(
+                  builder: (context) => const WishlistScreen(),
+                ),
+              );
+            },
+          ),
+          trailing: CupertinoButton(
+            padding: EdgeInsets.zero,
+            child: const Icon(
+              CupertinoIcons.cart,
+              color: CupertinoColors.white,
+              size: 24,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                CupertinoPageRoute(
+                  builder: (context) => const CartScreen(),
+                ),
+              );
+            },
+          ),
         ),
         child: SafeArea(
           child: BlocBuilder<ProductBloc, ProductState>(

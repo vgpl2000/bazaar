@@ -12,6 +12,7 @@ class BazaarApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoApp(
+      debugShowCheckedModeBanner: false,
       title: 'Bazaar',
       theme: CupertinoThemeData(
         primaryColor: const Color(0xFF2E7D32), // Teal Blue
