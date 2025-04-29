@@ -22,14 +22,24 @@ class BazaarApp extends StatelessWidget {
             fontSize: 17,
           ),
           navTitleTextStyle: GoogleFonts.farro(
-            color: const Color(0xFF212121),
+            color: const Color(0xFF212121), // Deep Charcoal
             fontSize: 17,
             fontWeight: FontWeight.w700,
           ),
           navLargeTitleTextStyle: GoogleFonts.farro(
-            color: const Color(0xFF212121),
+            color: const Color(0xFF212121), // Deep Charcoal
             fontSize: 34,
             fontWeight: FontWeight.w700,
+          ),
+          navActionTextStyle: GoogleFonts.farro(
+            color: const Color(0xFF2E7D32), // Teal Blue
+            fontSize: 17,
+            fontWeight: FontWeight.w500,
+          ),
+          actionTextStyle: GoogleFonts.farro(
+            color: const Color(0xFF2E7D32), // Teal Blue
+            fontSize: 17,
+            fontWeight: FontWeight.w500,
           ),
         ),
       ),

@@ -3,6 +3,7 @@ import 'package:bazaar/domain/usecases/get_products.dart';
 import 'package:bazaar/presentation/blocs/product/product_bloc.dart';
 import 'package:bazaar/presentation/blocs/product/product_event.dart';
 import 'package:bazaar/presentation/blocs/product/product_state.dart';
+import 'package:bazaar/presentation/screens/product_detail_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,9 +20,14 @@ class ProductListScreen extends StatelessWidget {
         GetProducts(ProductRepositoryImpl(ApiService())),
       )..add(FetchProducts()),
       child: CupertinoPageScaffold(
-        navigationBar: const CupertinoNavigationBar(
-          middle: Text('Bazaar Products'),
-          backgroundColor: Color(0xFF2E7D32), // Teal Blue
+        navigationBar: CupertinoNavigationBar(
+          middle: Image.asset(
+            'assets/images/logo.png',
+            height: 40,
+            fit: BoxFit.contain,
+          ),
+          backgroundColor: const Color(0xFF2E7D32), // Teal Blue
+          border: null, // Clean look
         ),
         child: SafeArea(
           child: BlocBuilder<ProductBloc, ProductState>(
@@ -31,40 +37,38 @@ class ProductListScreen extends StatelessWidget {
               } else if (state is ProductLoaded) {
                 return LayoutBuilder(
                   builder: (context, constraints) {
-                    // Responsive grid: 2 columns for mobile, 3 for tablet
                     final crossAxisCount = constraints.maxWidth > 600 ? 3 : 2;
                     final itemWidth = constraints.maxWidth / crossAxisCount;
-                    final imageSize = itemWidth * 0.6;
+                    final imageSize = itemWidth * 0.7;
 
                     return GridView.builder(
-                      padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(12),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: crossAxisCount,
-                        childAspectRatio: 0.7,
-                        crossAxisSpacing: 16,
-                        mainAxisSpacing: 16,
+                        childAspectRatio: 0.75,
+                        crossAxisSpacing: 12,
+                        mainAxisSpacing: 12,
                       ),
                       itemCount: state.products.length,
                       itemBuilder: (context, index) {
                         final product = state.products[index];
-                        return CupertinoContextMenu(
-                          actions: [
-                            CupertinoContextMenuAction(
-                              child: const Text('View Details'),
-                              onPressed: () {
-                                Navigator.pop(context); // Close context menu
-                                // Navigation to ProductDetailScreen will be added in Feature 4
-                              },
-                            ),
-                          ],
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) => ProductDetailScreen(product: product),
+                              ),
+                            );
+                          },
                           child: Container(
                             decoration: BoxDecoration(
                               color: CupertinoColors.white,
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(12),
                               boxShadow: [
                                 BoxShadow(
-                                  color: CupertinoColors.black.withValues(alpha: 0.1),
-                                  blurRadius: 4,
+                                  color: CupertinoColors.black.withOpacity(0.05),
+                                  blurRadius: 6,
                                   offset: const Offset(0, 2),
                                 ),
                               ],
@@ -74,24 +78,27 @@ class ProductListScreen extends StatelessWidget {
                               children: [
                                 Expanded(
                                   child: Center(
-                                    child: Image.network(
-                                      product.image,
-                                      height: imageSize,
-                                      width: imageSize,
-                                      fit: BoxFit.contain,
-                                      errorBuilder: (context, error, stackTrace) => const Icon(
-                                        CupertinoIcons.exclamationmark_triangle,
-                                        color: CupertinoColors.systemRed,
+                                    child: Hero(
+                                      tag: 'product-image-${product.id}',
+                                      child: Image.network(
+                                        product.image,
+                                        height: imageSize,
+                                        width: imageSize,
+                                        fit: BoxFit.contain,
+                                        errorBuilder: (context, error, stackTrace) => const Icon(
+                                          CupertinoIcons.exclamationmark_triangle,
+                                          color: CupertinoColors.systemRed,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.all(8),
+                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                                   child: Text(
                                     product.title,
                                     style: GoogleFonts.farro(
-                                      fontSize: 16,
+                                      fontSize: 14,
                                       fontWeight: FontWeight.w500,
                                       color: const Color(0xFF212121), // Deep Charcoal
                                     ),
@@ -100,26 +107,14 @@ class ProductListScreen extends StatelessWidget {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                                   child: Text(
                                     '\$${product.price.toStringAsFixed(2)}',
                                     style: GoogleFonts.farro(
-                                      fontSize: 14,
+                                      fontSize: 16,
                                       fontWeight: FontWeight.w700,
                                       color: const Color(0xFF2E7D32), // Teal Blue
                                     ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8),
-                                  child: Text(
-                                    product.description,
-                                    style: GoogleFonts.farro(
-                                      fontSize: 12,
-                                      color: const Color(0xFF757575), // Slate Gray
-                                    ),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                               ],
@@ -138,6 +133,7 @@ class ProductListScreen extends StatelessWidget {
                       style: GoogleFonts.farro(
                         color: CupertinoColors.systemRed,
                         fontSize: 16,
+                        fontWeight: FontWeight.w500,
                       ),
                       textAlign: TextAlign.center,
                     ),
