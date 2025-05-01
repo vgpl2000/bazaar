@@ -259,6 +259,15 @@ class ProductDetailScreen extends StatelessWidget {
                                         ),
                                         const SizedBox(height: 24),
                                         BlocBuilder<WishlistBloc, WishlistState>(
+                                          buildWhen: (previous, current) {
+                                            final prevIds = previous is WishlistLoaded
+                                                ? previous.wishlist.items.map((item) => item.product.id).toList()
+                                                : [];
+                                            final currIds = current is WishlistLoaded
+                                                ? current.wishlist.items.map((item) => item.product.id).toList()
+                                                : [];
+                                            return prevIds.contains(product.id) != currIds.contains(product.id);
+                                          },
                                           builder: (context, wishlistState) {
                                             bool isInWishlist = false;
                                             if (wishlistState is WishlistLoaded) {
