@@ -20,11 +20,12 @@ class AddToCart extends ProductDetailEvent {
   List<Object> get props => [productId, product, context];
 }
 
-class AddToWishlist extends ProductDetailEvent {
+class ToggleWishlist extends ProductDetailEvent {
   final ProductModel product;
+  final BuildContext context;
 
-  const AddToWishlist(this.product);
+  const ToggleWishlist(this.product, this.context);
 
   @override
-  List<Object> get props => [product];
+  List<Object> get props => [product, context];
 }

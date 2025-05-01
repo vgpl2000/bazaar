@@ -2,6 +2,8 @@ import 'package:bazaar/data/repositories/wishlist_repository_impl.dart';
 import 'package:bazaar/domain/usecases/add_to_wishlist.dart';
 import 'package:bazaar/domain/usecases/get_wishlist.dart';
 import 'package:bazaar/domain/usecases/remove_from_wishlist.dart';
+import 'package:bazaar/presentation/blocs/cart/cart_bloc.dart';
+import 'package:bazaar/presentation/blocs/cart/cart_event.dart' as CartEvents;
 import 'package:bazaar/presentation/blocs/wishlist/wishlist_bloc.dart';
 import 'package:bazaar/presentation/blocs/wishlist/wishlist_event.dart' as WishlistEvents;
 import 'package:bazaar/presentation/blocs/wishlist/wishlist_state.dart';
@@ -110,17 +112,39 @@ class WishlistScreen extends StatelessWidget {
                                     ],
                                   ),
                                 ),
-                                CupertinoButton(
-                                  padding: EdgeInsets.zero,
-                                  child: const Icon(
-                                    CupertinoIcons.trash,
-                                    color: CupertinoColors.systemRed,
-                                  ),
-                                  onPressed: () {
-                                    context.read<WishlistBloc>().add(
-                                      WishlistEvents.RemoveFromWishlist(item.product.id),
-                                    );
-                                  },
+                                Row(
+                                  children: [
+                                    CupertinoButton(
+                                      padding: EdgeInsets.zero,
+                                      child: const Icon(
+                                        CupertinoIcons.cart,
+                                        color: Color(0xFF2E7D32), // Teal Blue
+                                        size: 24,
+                                      ),
+                                      onPressed: () {
+                                        context.read<CartBloc>().add(
+                                          CartEvents.AddToCart(item.product),
+                                        );
+                                        // Optionally remove from wishlist
+                                        context.read<WishlistBloc>().add(
+                                          WishlistEvents.RemoveFromWishlist(item.product.id),
+                                        );
+                                      },
+                                    ),
+                                    CupertinoButton(
+                                      padding: EdgeInsets.zero,
+                                      child: const Icon(
+                                        CupertinoIcons.trash,
+                                        color: CupertinoColors.systemRed,
+                                        size: 24,
+                                      ),
+                                      onPressed: () {
+                                        context.read<WishlistBloc>().add(
+                                          WishlistEvents.RemoveFromWishlist(item.product.id),
+                                        );
+                                      },
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),

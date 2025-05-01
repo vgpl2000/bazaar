@@ -44,4 +44,9 @@ class CartRepositoryImpl implements CartRepository {
       _cart = CartModel(items: items);
     }
   }
+
+  Future<void> clearCart() async {
+    await Future.delayed(const Duration(milliseconds: 500));
+    _cart = const CartModel(items: []);
+  }
 }
