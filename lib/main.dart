@@ -14,9 +14,11 @@ import 'package:bazaar/domain/usecases/update_cart_quantity.dart';
 import 'package:bazaar/presentation/blocs/cart/cart_bloc.dart';
 import 'package:bazaar/presentation/blocs/checkout/checkout_bloc.dart';
 import 'package:bazaar/presentation/blocs/product/product_bloc.dart';
-import 'package:bazaar/presentation/blocs/product/product_event.dart' as ProductEvents;
+import 'package:bazaar/presentation/blocs/product/product_event.dart' as product_events;
 import 'package:bazaar/presentation/blocs/wishlist/wishlist_bloc.dart';
+import 'package:bazaar/presentation/screens/cart_screen.dart';
 import 'package:bazaar/presentation/screens/product_list_screen.dart';
+import 'package:bazaar/presentation/screens/wishlist_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -34,7 +36,7 @@ class BazaarApp extends StatelessWidget {
         BlocProvider(
           create: (context) => ProductBloc(
             GetProducts(ProductRepositoryImpl(ApiService())),
-          )..add(ProductEvents.FetchProducts()),
+          )..add(product_events.FetchProducts()),
         ),
         BlocProvider(
           create: (context) => CartBloc(
@@ -57,10 +59,10 @@ class BazaarApp extends StatelessWidget {
           ),
         ),
       ],
-      child: const CupertinoApp(
+      child: CupertinoApp(
         debugShowCheckedModeBanner: false,
         title: 'Bazaar',
-        theme: CupertinoThemeData(
+        theme: const CupertinoThemeData(
           primaryColor: Color(0xFF2E7D32), // Teal Blue
           scaffoldBackgroundColor: Color(0xFFB0BEC5), // Warm Gray
           textTheme: CupertinoTextThemeData(
@@ -70,7 +72,12 @@ class BazaarApp extends StatelessWidget {
             ),
           ),
         ),
-        home: ProductListScreen(),
+        initialRoute: '/',
+        routes: {
+          '/': (context) =>  const ProductListScreen(),
+          '/cart': (context) =>  const CartScreen(),
+          '/wishlist': (context) =>  const WishlistScreen(),
+        },
       ),
     );
   }

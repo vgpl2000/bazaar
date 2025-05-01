@@ -3,10 +3,10 @@ import 'package:bazaar/domain/usecases/get_cart.dart';
 import 'package:bazaar/domain/usecases/remove_from_cart.dart';
 import 'package:bazaar/domain/usecases/update_cart_quantity.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:bazaar/presentation/blocs/cart/cart_event.dart' as CartEvents;
+import 'package:bazaar/presentation/blocs/cart/cart_event.dart' as cart_events;
 import 'package:bazaar/presentation/blocs/cart/cart_state.dart';
 
-class CartBloc extends Bloc<CartEvents.CartEvent, CartState> {
+class CartBloc extends Bloc<cart_events.CartEvent, CartState> {
   final GetCart getCart;
   final AddToCart addToCart;
   final RemoveFromCart removeFromCart;
@@ -18,13 +18,13 @@ class CartBloc extends Bloc<CartEvents.CartEvent, CartState> {
     required this.removeFromCart,
     required this.updateCartQuantity,
   }) : super(CartInitial()) {
-    on<CartEvents.LoadCart>(_onLoadCart);
-    on<CartEvents.AddToCart>(_onAddToCart);
-    on<CartEvents.RemoveFromCart>(_onRemoveFromCart);
-    on<CartEvents.UpdateCartQuantity>(_onUpdateCartQuantity);
+    on<cart_events.LoadCart>(_onLoadCart);
+    on<cart_events.AddToCart>(_onAddToCart);
+    on<cart_events.RemoveFromCart>(_onRemoveFromCart);
+    on<cart_events.UpdateCartQuantity>(_onUpdateCartQuantity);
   }
 
-  Future<void> _onLoadCart(CartEvents.LoadCart event, Emitter<CartState> emit) async {
+  Future<void> _onLoadCart(cart_events.LoadCart event, Emitter<CartState> emit) async {
     emit(CartLoading());
     try {
       final cart = await getCart();
@@ -34,7 +34,7 @@ class CartBloc extends Bloc<CartEvents.CartEvent, CartState> {
     }
   }
 
-  Future<void> _onAddToCart(CartEvents.AddToCart event, Emitter<CartState> emit) async {
+  Future<void> _onAddToCart(cart_events.AddToCart event, Emitter<CartState> emit) async {
     emit(CartLoading());
     try {
       await addToCart(event.product);
@@ -45,7 +45,7 @@ class CartBloc extends Bloc<CartEvents.CartEvent, CartState> {
     }
   }
 
-  Future<void> _onRemoveFromCart(CartEvents.RemoveFromCart event, Emitter<CartState> emit) async {
+  Future<void> _onRemoveFromCart(cart_events.RemoveFromCart event, Emitter<CartState> emit) async {
     emit(CartLoading());
     try {
       await removeFromCart(event.productId);
@@ -56,7 +56,7 @@ class CartBloc extends Bloc<CartEvents.CartEvent, CartState> {
     }
   }
 
-  Future<void> _onUpdateCartQuantity(CartEvents.UpdateCartQuantity event, Emitter<CartState> emit) async {
+  Future<void> _onUpdateCartQuantity(cart_events.UpdateCartQuantity event, Emitter<CartState> emit) async {
     emit(CartLoading());
     try {
       await updateCartQuantity(event.productId, event.quantity);

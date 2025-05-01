@@ -2,10 +2,10 @@ import 'package:bazaar/domain/usecases/add_to_wishlist.dart';
 import 'package:bazaar/domain/usecases/get_wishlist.dart';
 import 'package:bazaar/domain/usecases/remove_from_wishlist.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'wishlist_event.dart' as WishlistEvents;
+import 'wishlist_event.dart' as wishlist_events;
 import 'wishlist_state.dart';
 
-class WishlistBloc extends Bloc<WishlistEvents.WishlistEvent, WishlistState> {
+class WishlistBloc extends Bloc<wishlist_events.WishlistEvent, WishlistState> {
   final GetWishlist getWishlist;
   final AddToWishlist addToWishlist;
   final RemoveFromWishlist removeFromWishlist;
@@ -15,12 +15,12 @@ class WishlistBloc extends Bloc<WishlistEvents.WishlistEvent, WishlistState> {
     required this.addToWishlist,
     required this.removeFromWishlist,
   }) : super(WishlistLoading()) {
-    on<WishlistEvents.LoadWishlist>(_onLoadWishlist);
-    on<WishlistEvents.AddToWishlist>(_onAddToWishlist);
-    on<WishlistEvents.RemoveFromWishlist>(_onRemoveFromWishlist);
+    on<wishlist_events.LoadWishlist>(_onLoadWishlist);
+    on<wishlist_events.AddToWishlist>(_onAddToWishlist);
+    on<wishlist_events.RemoveFromWishlist>(_onRemoveFromWishlist);
   }
 
-  Future<void> _onLoadWishlist(WishlistEvents.LoadWishlist event, Emitter<WishlistState> emit) async {
+  Future<void> _onLoadWishlist(wishlist_events.LoadWishlist event, Emitter<WishlistState> emit) async {
     emit(WishlistLoading());
     try {
       final wishlist = await getWishlist();
@@ -30,7 +30,7 @@ class WishlistBloc extends Bloc<WishlistEvents.WishlistEvent, WishlistState> {
     }
   }
 
-  Future<void> _onAddToWishlist(WishlistEvents.AddToWishlist event, Emitter<WishlistState> emit) async {
+  Future<void> _onAddToWishlist(wishlist_events.AddToWishlist event, Emitter<WishlistState> emit) async {
     try {
       await addToWishlist(event.product);
       final wishlist = await getWishlist();
@@ -40,7 +40,7 @@ class WishlistBloc extends Bloc<WishlistEvents.WishlistEvent, WishlistState> {
     }
   }
 
-  Future<void> _onRemoveFromWishlist(WishlistEvents.RemoveFromWishlist event, Emitter<WishlistState> emit) async {
+  Future<void> _onRemoveFromWishlist(wishlist_events.RemoveFromWishlist event, Emitter<WishlistState> emit) async {
     try {
       await removeFromWishlist(event.productId);
       final wishlist = await getWishlist();
