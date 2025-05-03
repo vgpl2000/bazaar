@@ -9,11 +9,13 @@ class CartRepositoryImpl implements CartRepository {
 
   CartModel _cart = const CartModel();
 
+  // TO get cart current cart
   @override
   Future<CartModel> getCart() async {
     return _cart;
   }
 
+  //To add a product to the cart
   @override
   Future<void> addToCart(ProductModel product) async {
     final items = List<CartItem>.from(_cart.items);
@@ -26,12 +28,14 @@ class CartRepositoryImpl implements CartRepository {
     _cart = CartModel(items: items);
   }
 
+  // To remove a product from cart
   @override
   Future<void> removeFromCart(int productId) async {
     final items = _cart.items.where((item) => item.product.id != productId).toList();
     _cart = CartModel(items: items);
   }
 
+  //To update the quantity of the product in the cart
   @override
   Future<void> updateQuantity(int productId, int quantity) async {
     final items = List<CartItem>.from(_cart.items);
@@ -45,7 +49,9 @@ class CartRepositoryImpl implements CartRepository {
     }
   }
 
+  // Clear items from cart. Used on Checkout.
   Future<void> clearCart() async {
+    // Delay just to mock the real checkout 😊
     await Future.delayed(const Duration(milliseconds: 500));
     _cart = const CartModel(items: []);
   }

@@ -8,6 +8,7 @@ class ProductRepositoryImpl implements ProductRepository {
 
   ProductRepositoryImpl(this.apiService);
 
+  // To get products from fake-store api
   @override
   Future<List<ProductModel>> getProducts() async {
     try {

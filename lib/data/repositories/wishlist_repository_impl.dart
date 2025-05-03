@@ -9,11 +9,13 @@ class WishlistRepositoryImpl implements WishlistRepository {
 
   WishlistModel _wishlist = const WishlistModel();
 
+  //Get current wishlist
   @override
   Future<WishlistModel> getWishlist() async {
     return _wishlist;
   }
 
+  // Add item to wishlist
   @override
   Future<void> addToWishlist(ProductModel product) async {
     final items = List<WishlistItem>.from(_wishlist.items);
@@ -23,6 +25,7 @@ class WishlistRepositoryImpl implements WishlistRepository {
     _wishlist = WishlistModel(items: items);
   }
 
+  // Remove one item from wishlist
   @override
   Future<void> removeFromWishlist(int productId) async {
     final items = _wishlist.items.where((item) => item.product.id != productId).toList();
