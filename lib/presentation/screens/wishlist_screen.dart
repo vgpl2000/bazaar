@@ -32,8 +32,10 @@ class WishlistScreen extends StatelessWidget {
           child: BlocBuilder<WishlistBloc, WishlistState>(
             builder: (context, state) {
               if (state is WishlistLoading) {
+                //Loading...
                 return const Center(child: CupertinoActivityIndicator(color: Color(0xFF2E7D32)));
               } else if (state is WishlistLoaded) {
+                // Empty Wishlist
                 final wishlist = state.wishlist;
                 if (wishlist.items.isEmpty) {
                   return Center(

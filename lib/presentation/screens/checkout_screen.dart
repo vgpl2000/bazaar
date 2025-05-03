@@ -21,6 +21,7 @@ class CheckoutScreen extends StatelessWidget {
 
     return BlocListener<CheckoutBloc, CheckoutState>(
       listener: (context, state) {
+        //Checkout success
         if (state is CheckoutSuccess) {
           showCupertinoDialog(
             context: context,
@@ -77,6 +78,7 @@ class CheckoutScreen extends StatelessWidget {
             ),
           );
 
+          //Checkout error
         } else if (state is CheckoutError) {
           showCupertinoDialog(
             context: context,
@@ -135,6 +137,7 @@ class CheckoutScreen extends StatelessWidget {
 
         }
       },
+      //Checkout
       child: CupertinoTheme(
         data: const CupertinoThemeData(
           primaryColor: Color(0xFF2E7D32),

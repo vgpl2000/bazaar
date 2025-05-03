@@ -190,6 +190,7 @@ class CartScreen extends StatelessWidget {
     );
   }
 
+  //Single cart item card
   Widget _buildCartItem(BuildContext context, ProductModel product,
       int quantity, double padding) {
     return Container(

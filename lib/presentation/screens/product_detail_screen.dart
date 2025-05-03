@@ -33,6 +33,7 @@ class ProductDetailScreen extends StatelessWidget {
         listenWhen: (previous, current) =>
         current is ProductDetailSuccess || current is ProductDetailError,
         listener: (context, state) {
+          //Product Detail Success when added to Cart
           if (state is ProductDetailSuccess) {
             showCupertinoDialog(
               context: context,
@@ -89,6 +90,7 @@ class ProductDetailScreen extends StatelessWidget {
               ),
             );
 
+            //Product detail error
           } else if (state is ProductDetailError) {
             showCupertinoDialog(
               context: context,
@@ -150,6 +152,7 @@ class ProductDetailScreen extends StatelessWidget {
 
           }
         },
+        //Product Detail Page designs
         child: BlocBuilder<ProductDetailBloc, ProductDetailState>(
           builder: (context, state) {
             return CupertinoTheme(

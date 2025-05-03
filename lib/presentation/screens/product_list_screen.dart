@@ -119,6 +119,7 @@ class ProductListScreen extends StatelessWidget {
     );
   }
 
+  // Single Product Card
   Widget _buildProductCard(
       BuildContext context,
       ProductModel product,
